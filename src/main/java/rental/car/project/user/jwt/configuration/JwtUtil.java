@@ -3,7 +3,6 @@ package rental.car.project.user.jwt.configuration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
@@ -13,8 +12,7 @@ import java.util.function.Function;
 
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private static String SECRET_KEY;
+    private static final String SECRET_KEY = "SeriouslySuperSecureSecretStringSaysSiteStaysSafe";
 
     private static Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
@@ -45,8 +43,9 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public static String generateToken(UserDetails userDetails) {
+    public static String generateToken(UserDetails userDetails, String role) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
         return createToken(claims, userDetails.getUsername());
     }
 

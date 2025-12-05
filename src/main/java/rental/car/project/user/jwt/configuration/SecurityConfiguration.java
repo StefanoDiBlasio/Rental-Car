@@ -25,9 +25,6 @@ public class SecurityConfiguration {
     UserDetailsService userDetailsService;
 
     @Autowired
-    AuthorizationFilter authorizationFilter;
-
-    @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
@@ -62,7 +59,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        String[] publicRoutes = {"/auth/", "/swagger-ui.html", "/swagger-ui/", "/v1/api-docs"};
+        String[] publicRoutes = {"/swagger-ui.html", "/swagger-ui/", "/api/v1/api-docs", "/api/v1/authenticate", "/api/v1/register/*"};
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf

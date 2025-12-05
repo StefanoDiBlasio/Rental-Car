@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.configuration;
+package rental.car.project.user.jwt.configuration;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

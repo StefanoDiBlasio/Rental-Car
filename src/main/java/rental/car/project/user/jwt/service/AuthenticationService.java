@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.service;
+package rental.car.project.user.jwt.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import rental.car.demo.user.jwt.dto.LoginDto;
+import rental.car.project.user.jwt.dto.LoginRequestDto;
 
 @Service
 public class AuthenticationService {
@@ -23,12 +23,12 @@ public class AuthenticationService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public UserDetails authenticate(LoginDto loginDto) throws Exception {
+    public UserDetails authenticate(LoginRequestDto loginRequestDto) throws Exception {
         logger.info("::AuthenticationService.authenticate:: (START)");
 
         Authentication authentication = null;
         try {
-            UsernamePasswordAuthenticationToken authObject = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+            UsernamePasswordAuthenticationToken authObject = new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword());
             authentication = authenticationManager.authenticate(authObject);
         } catch (BadCredentialsException e) {
             logger.error("::AuthenticationService.authenticate:: Bad Credentials: " + e);

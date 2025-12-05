@@ -1,9 +1,8 @@
-package rental.car.demo.user.application;
+package rental.car.project.user.application;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rental.car.demo.user.infrastructure.UserRepository;
+import rental.car.project.user.infrastructure.UserRepository;
 
 @Service
 @Slf4j

@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.configuration;
+package rental.car.project.user.jwt.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+//viene eseguito se un utente non autenticato cerca di accedere ad una risorsa protetta (parte ancor prima di arrivare ai controller)
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);

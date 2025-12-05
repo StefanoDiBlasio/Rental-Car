@@ -1,4 +1,4 @@
-package rental.car.demo.user.domain;
+package rental.car.project.user.domain;
 
 public enum RoleType {
     SUPERADMIN, CUSTOMER

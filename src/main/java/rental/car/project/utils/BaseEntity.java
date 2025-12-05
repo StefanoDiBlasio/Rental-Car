@@ -1,4 +1,4 @@
-package rental.car.demo.utils;
+package rental.car.project.utils;
 
 import jakarta.persistence.*;
 import lombok.Getter;

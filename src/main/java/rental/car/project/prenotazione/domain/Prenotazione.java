@@ -1,12 +1,12 @@
-package rental.car.demo.prenotazione.domain;
+package rental.car.project.prenotazione.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rental.car.demo.auto.domain.Auto;
-import rental.car.demo.user.domain.User;
-import rental.car.demo.utils.BaseEntity;
+import rental.car.project.auto.domain.Auto;
+import rental.car.project.user.domain.User;
+import rental.car.project.utils.BaseEntity;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package rental.car.demo.auto.domain;
+package rental.car.project.auto.domain;
 
 public enum AutoType {
     MINIVAN, FURGONE, SUV, BERLINA

@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.dto;
+package rental.car.project.user.jwt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto implements Serializable {
+public class LoginRequestDto implements Serializable {
 
     private String username;
     private String password;

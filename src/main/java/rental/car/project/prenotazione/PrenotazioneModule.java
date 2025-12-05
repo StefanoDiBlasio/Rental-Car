@@ -1,4 +1,4 @@
-package rental.car.demo.prenotazione;
+package rental.car.project.prenotazione;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.modulith.ApplicationModule;

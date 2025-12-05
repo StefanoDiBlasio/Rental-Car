@@ -1,4 +1,4 @@
-package rental.car.demo.prenotazione.application;
+package rental.car.project.prenotazione.application;
 
 import org.springframework.stereotype.Service;
 

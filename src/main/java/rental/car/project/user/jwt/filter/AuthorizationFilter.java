@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.filter;
+package rental.car.project.user.jwt.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import rental.car.demo.user.jwt.configuration.JwtUtil;
+import rental.car.project.user.jwt.configuration.JwtUtil;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.configuration.handler;
+package rental.car.project.user.jwt.configuration.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

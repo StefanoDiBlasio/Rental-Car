@@ -1,10 +1,8 @@
-package rental.car.demo.user.infrastructure;
+package rental.car.project.user.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import rental.car.demo.user.domain.User;
+import rental.car.project.user.domain.User;
 
 import java.util.Optional;
 

@@ -1,10 +1,10 @@
-package rental.car.demo.auto.application;
+package rental.car.project.auto.application;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import rental.car.demo.auto.domain.Auto;
-import rental.car.demo.auto.domain.AutoType;
-import rental.car.demo.auto.infrastructure.AutoRepository;
+import rental.car.project.auto.domain.Auto;
+import rental.car.project.auto.domain.AutoType;
+import rental.car.project.auto.infrastructure.AutoRepository;
 
 @Service
 public class AutoService {

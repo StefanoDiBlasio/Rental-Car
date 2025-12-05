@@ -1,10 +1,10 @@
-package rental.car.demo.auto.domain;
+package rental.car.project.auto.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rental.car.demo.utils.BaseEntity;
+import rental.car.project.utils.BaseEntity;
 
 @Entity
 @Table(name = "auto")

@@ -1,4 +1,4 @@
-package rental.car.demo.user.domain;
+package rental.car.project.user.domain;
 
 import lombok.Getter;
 import lombok.Setter;

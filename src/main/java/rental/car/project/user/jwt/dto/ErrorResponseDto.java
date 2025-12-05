@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.dto;
+package rental.car.project.user.jwt.dto;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,8 +1,8 @@
-package rental.car.demo.notification;
+package rental.car.project.notification;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import rental.car.demo.auto.application.AutoCreatedEvent;
+import rental.car.project.auto.application.AutoCreatedEvent;
 
 @Component
 public class AutoNotificationListener {

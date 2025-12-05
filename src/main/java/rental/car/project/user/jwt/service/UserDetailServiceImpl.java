@@ -1,4 +1,4 @@
-package rental.car.demo.user.jwt.service;
+package rental.car.project.user.jwt.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import rental.car.demo.user.domain.User;
-import rental.car.demo.user.infrastructure.UserRepository;
-import rental.car.demo.user.jwt.data.JwtUser;
+import rental.car.project.user.domain.User;
+import rental.car.project.user.infrastructure.UserRepository;
+import rental.car.project.user.jwt.data.JwtUser;
 
 import java.util.Optional;
 

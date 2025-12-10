@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import rental.car.project.user.domain.RoleType;
 import rental.car.project.user.domain.User;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
@@ -30,10 +30,10 @@ public class JwtUser implements UserDetails {
     public JwtUser(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.enabled = user.getEnabled();
+        this.enabled = Boolean.TRUE.equals(user.getEnabled());
 
-        this.authorities = Arrays.stream(user.getRoleType().toString().split(","))
-                .map(SimpleGrantedAuthority::new)
+        this.authorities = Stream.of(user.getRoleType().toString())
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package rental.car.project.auto.application;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import rental.car.project.auto.domain.Auto;
@@ -9,9 +10,11 @@ import rental.car.project.auto.infrastructure.AutoRepository;
 @Service
 public class AutoService {
 
-    private final AutoRepository autoRepository;
+    @Autowired
+    private AutoRepository autoRepository;
 
-    private final ApplicationEventPublisher publisher;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public AutoService(AutoRepository autoRepository, ApplicationEventPublisher publisher) {
         this.autoRepository = autoRepository;

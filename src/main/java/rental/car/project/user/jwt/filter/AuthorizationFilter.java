@@ -46,6 +46,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         if (username != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            if(!userDetails.isEnabled()) {
+                logger.warn("Tentativo di accesso da utente disabilitato: " + username);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "::Account disabilitato!::");
+                return;
+            }
+
             if (JwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

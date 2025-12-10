@@ -17,6 +17,20 @@ import java.time.LocalDate;
 @Setter
 public class Prenotazione extends BaseEntity {
 
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private Long userId;
+
+    @Column(name = "auto_id", nullable = false, insertable = false, updatable = false)
+    private Long autoId;
+
+    @Column(name = "inizio_prenotazione", nullable = false)
+    private LocalDate inizioPrenotazione;
+
+    @Column(name = "fine_prenotazione", nullable = false)
+    private LocalDate finePrenotazione;
+
+    //---------------------------------------------
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
@@ -24,10 +38,4 @@ public class Prenotazione extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auto_id", nullable = false, insertable = false, updatable = false)
     private Auto auto;
-
-    @Column(name = "inizio_prenotazione", nullable = false)
-    private LocalDate inizioPrenotazione;
-
-    @Column(name = "fine_prenotazione", nullable = false)
-    private LocalDate finePrenotazione;
 }

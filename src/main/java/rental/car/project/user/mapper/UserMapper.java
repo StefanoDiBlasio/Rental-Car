@@ -2,7 +2,8 @@ package rental.car.project.user.mapper;
 
 import org.springframework.stereotype.Component;
 import rental.car.project.user.domain.User;
-import rental.car.project.user.domain.UserDto;
+import rental.car.project.user.dto.UserDto;
+import rental.car.project.user.dto.UserUpdateDto;
 import rental.car.project.utils.BaseMapper;
 
 @Component
@@ -33,4 +34,12 @@ public class UserMapper implements BaseMapper<User, UserDto> {
 
         return entity;
     }
+
+    public User converToUpdateEntity(User entity, UserUpdateDto updateDto) {
+        entity.setFirstName(updateDto.getFirstName());
+        entity.setLastName(updateDto.getLastName());
+        entity.setBirthDate(updateDto.getBirthDate());
+        return entity;
+    }
+
 }

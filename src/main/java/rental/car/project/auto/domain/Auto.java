@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rental.car.project.utils.BaseEntity;
+import lombok.experimental.SuperBuilder;
+import rental.car.project.utils.base.BaseEntity;
 
 @Entity
 @Table(name = "auto")
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Auto extends BaseEntity {
 
     @Column(name = "casa_costruttrice", nullable = false)

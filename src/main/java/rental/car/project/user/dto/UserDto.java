@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import rental.car.project.user.domain.RoleType;
-import rental.car.project.utils.BaseGetDto;
+import rental.car.project.utils.base.BaseGetDto;
 
 import java.time.LocalDate;
 

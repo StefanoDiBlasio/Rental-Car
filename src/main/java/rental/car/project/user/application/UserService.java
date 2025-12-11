@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.stereotype.Service;
 import rental.car.project.user.domain.RoleType;
 import rental.car.project.user.domain.User;
@@ -37,15 +38,9 @@ public class UserService {
     @Autowired
     private RegistrationMapper registrationMapper;
 
-    public UserDto getUserById(Long userId) {
-        logger.info("::UserService.get (START)::");
-        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("::User non trovato!::"));
-        logger.info("::GET_BY_ID Utente trovato con id: " + userId + ": " + user.getFirstName() + " " + user.getLastName() + " ::");
-        return userMapper.convertToDto(user);
-    }
 
-    public List<UserDto> getAllUsers() {
-        logger.info("::UserService.getAll (START)::");
+    public List<UserDto> getAllUsers(){
+        logger.info("::UserService.getAllUsers (START)::");
         List<UserDto> dtoList = new ArrayList<>();
         List<User> users = userRepository.findAll();
         for (User u : users) {
@@ -54,9 +49,16 @@ public class UserService {
         return dtoList;
     }
 
-    public UserDto createUser(RegistrationRequestDto dto, RoleType roleType) {
-        logger.info("::AuthenticationService.createUser:: (START)");
+    public UserDto getUserById(Long userId) {
+        logger.info("::UserService.getUserById (START)::");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("::User con Id: " + userId + " non trovato!::"));
+        logger.info("::GET_USER_BY_ID Utente trovato con id: " + userId + ": " + user.getFirstName() + " " + user.getLastName() + " ::");
+        return userMapper.convertToDto(user);
+    }
 
+    public UserDto createUser(RegistrationRequestDto dto, RoleType roleType) {
+        logger.info("::UserService.createUser:: (START)");
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("::Username già presente!::");
         }
@@ -76,25 +78,25 @@ public class UserService {
                 user.getEnabled(),
                 user.getRoleType()
         ));
-        logger.info("::AuthenticationService.register:: (END)");
+        logger.info("::UserService.register:: (END)");
 
         return userMapper.convertToDto(user);
     }
 
     public UserDto updateUser(Long userId, UserUpdateDto updateDto) {
-        logger.info("::UserService.update (START)::");
+        logger.info("::UserService.updateUser (START)::");
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("::Nessun utente trovato!::"));
 
-        userMapper.converToUpdateEntity(existingUser, updateDto);
-        userRepository.save(existingUser);
+        existingUser = userMapper.convertToUpdateEntity(existingUser, updateDto);
+        existingUser = userRepository.save(existingUser);
         publisher.publishEvent(new UserUpdatedEvent(
                 existingUser.getId(),
                 existingUser.getFirstName(),
                 existingUser.getLastName(),
                 existingUser.getBirthDate()
         ));
-        logger.info("::UPDATE Utente con id: " + userId + " aggiornato con successo!::");
+        logger.info("::UPDATE_USER Utente con id: " + userId + " aggiornato con successo!::");
         return userMapper.convertToDto(existingUser);
     }
 
@@ -105,7 +107,7 @@ public class UserService {
         publisher.publishEvent(new UserDeletedEvent(
                 userId
         ));
-        logger.info("::Utente con id: " + userId + " eliminato con successo!::");
+        logger.info("::DELETE_USER Utente con id: " + userId + " eliminato con successo!::");
     }
 
     public void setEnabled(Long userId){

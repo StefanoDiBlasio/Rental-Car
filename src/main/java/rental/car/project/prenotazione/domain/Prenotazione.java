@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rental.car.project.auto.domain.Auto;
 import rental.car.project.user.domain.User;
-import rental.car.project.utils.BaseEntity;
+import rental.car.project.utils.base.BaseEntity;
 
 import java.time.LocalDate;
 

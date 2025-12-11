@@ -18,7 +18,7 @@ import rental.car.project.user.jwt.service.AuthenticationService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 //@CrossOrigin("*")
 public class UserController {
 
@@ -31,7 +31,7 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasRole('SUPERADMIN')")
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/all")
     public ResponseEntity<List<UserDto>> getAll() {
         logger.info("::UserController.getAll (START)::");
         List<UserDto> users = userService.getAllUsers();

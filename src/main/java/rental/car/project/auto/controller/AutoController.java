@@ -23,7 +23,7 @@ public class AutoController {
     private AutoService autoService;
 
     @PreAuthorize("hasRole('SUPERADMIN')")
-    @GetMapping(path = "/parcoAuto")
+    @GetMapping(path = "/all")
     public ResponseEntity<List<AutoDto>> getAll() {
         logger.info("::AutoController.getAll (START)::");
         List<AutoDto> auto = autoService.getAllAuto();

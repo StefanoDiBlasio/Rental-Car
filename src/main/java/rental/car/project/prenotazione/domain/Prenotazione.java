@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import rental.car.project.auto.domain.Auto;
 import rental.car.project.user.domain.User;
 import rental.car.project.utils.base.BaseEntity;
@@ -15,13 +16,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Prenotazione extends BaseEntity {
 
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "auto_id", nullable = false, insertable = false, updatable = false)
-    private Long autoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auto_id", nullable = false)
+    private Auto auto;
 
     @Column(name = "inizio_prenotazione", nullable = false)
     private LocalDate inizioPrenotazione;
@@ -29,13 +33,4 @@ public class Prenotazione extends BaseEntity {
     @Column(name = "fine_prenotazione", nullable = false)
     private LocalDate finePrenotazione;
 
-    //---------------------------------------------
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auto_id", nullable = false, insertable = false, updatable = false)
-    private Auto auto;
 }

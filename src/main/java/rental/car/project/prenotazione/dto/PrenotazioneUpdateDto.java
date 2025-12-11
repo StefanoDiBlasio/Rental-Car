@@ -2,18 +2,13 @@ package rental.car.project.prenotazione.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import rental.car.project.utils.base.BaseGetDto;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@SuperBuilder
-public class PrenotazioneDto extends BaseGetDto {
+public class PrenotazioneUpdateDto {
 
-    private Long userId;
-    private Long autoId;
     private LocalDate inizioPrenotazione;
     private LocalDate finePrenotazione;
 }

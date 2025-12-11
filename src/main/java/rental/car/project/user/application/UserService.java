@@ -85,6 +85,10 @@ public class UserService {
 
     public UserDto updateUser(Long userId, UserUpdateDto updateDto) {
         logger.info("::UserService.updateUser (START)::");
+        if (noFieldsToUpdate(updateDto)) {
+            logger.error("::ERRORE:: Nessun campo da aggiornare!");
+            throw new IllegalArgumentException("Non ci sono campi da aggiornare!");
+        }
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("::Nessun utente trovato!::"));
 
@@ -126,5 +130,11 @@ public class UserService {
         user.setEnabled(false);
         userRepository.save(user);
         logger.info("::Lo stato dell'utente con id: " + userId + " e' ora disabilitato!::");
+    }
+
+    private boolean noFieldsToUpdate(UserUpdateDto dto) {
+        return (dto.getFirstName() == null || dto.getFirstName().trim().isEmpty()) &&
+                (dto.getLastName() == null || dto.getLastName().trim().isEmpty()) &&
+                dto.getBirthDate() == null;
     }
 }

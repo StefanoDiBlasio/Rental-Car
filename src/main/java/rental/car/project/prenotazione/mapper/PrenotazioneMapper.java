@@ -44,8 +44,14 @@ public class PrenotazioneMapper implements BaseMapper<Prenotazione, Prenotazione
     }
 
     public Prenotazione convertToUpdateEntity(Prenotazione entity, PrenotazioneUpdateDto updateDto) {
-        entity.setInizioPrenotazione(updateDto.getInizioPrenotazione());
-        entity.setFinePrenotazione(updateDto.getFinePrenotazione());
+        if(updateDto.getInizioPrenotazione() != null) {
+            entity.setInizioPrenotazione(updateDto.getInizioPrenotazione());
+        }
+
+        if(updateDto.getFinePrenotazione() != null) {
+            entity.setFinePrenotazione(updateDto.getFinePrenotazione());
+        }
+
         return entity;
     }
 

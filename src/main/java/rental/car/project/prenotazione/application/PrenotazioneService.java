@@ -86,6 +86,11 @@ public class PrenotazioneService {
         Prenotazione existingPrenotazione = prenotazioneRepository.findById(prenotazioneId)
                 .orElseThrow(() -> new NoSuchElementException("::Nessuna prenotazione trovata!::"));
 
+        if(updateDto.getInizioPrenotazione() == null && updateDto.getFinePrenotazione() == null) {
+            logger.error("::ERRORE:: Nessun campo da aggiornare!");
+            throw new IllegalArgumentException("Non ci sono campi da aggiornare!");
+        }
+
         existingPrenotazione = prenotazioneMapper.convertToUpdateEntity(existingPrenotazione, updateDto);
         existingPrenotazione = prenotazioneRepository.save(existingPrenotazione);
         publisher.publishEvent(new PrenotazioneUpdatedEvent(
@@ -106,4 +111,5 @@ public class PrenotazioneService {
         ));
         logger.info("::DELETE_PRENOTAZIONE La prenotazione con id: " + prenotazioneId + " è stata eliminata con successo!::");
     }
+
 }

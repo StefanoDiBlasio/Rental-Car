@@ -42,7 +42,7 @@ public class PrenotazioneController {
 
     @PreAuthorize("hasRole('SUPERADMIN')")
     @PostMapping(value = "/add")
-    public ResponseEntity<PrenotazioneDto> addPrenotazione(@RequestBody PrenotazioneCreateDto prenotazioneCreateDto) {
+    public ResponseEntity<PrenotazioneDto> add(@RequestBody PrenotazioneCreateDto prenotazioneCreateDto) {
         logger.info("::PrenotazioneController.addPrenotazione (START)::");
         PrenotazioneDto prenotazioneDto = prenotazioneService.createPrenotazione(prenotazioneCreateDto);
         logger.info("::Nuova prenotazione aggiunta! Data prenotazione: " + prenotazioneCreateDto.getInizioPrenotazione() + " - " + prenotazioneCreateDto.getFinePrenotazione() + ". Utente: " + prenotazioneCreateDto.getUserId() + ", Auto: " + prenotazioneCreateDto.getAutoId() + " ::");

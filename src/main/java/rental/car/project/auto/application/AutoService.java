@@ -53,6 +53,10 @@ public class AutoService {
         if (autoRepository.findByTarga(createDto.getTarga()).isPresent()) {
             throw new IllegalArgumentException("::Targa già presente!::");
         }
+        String targa = createDto.getTarga();
+        if(targa != null) {
+            createDto.setTarga(targa.trim().toUpperCase());
+        }
         Auto auto = autoMapper.convertToCreateEntity(createDto);
         auto = autoRepository.save(auto);
         logger.info(":: Auto creata con successo! ::");
@@ -72,6 +76,14 @@ public class AutoService {
         logger.info("::AutoService.update (START)::");
         Auto existingAuto = autoRepository.findById(autoId)
                 .orElseThrow(() -> new NoSuchElementException("::Nessuna auto trovata!::"));
+
+        if(updateDto.getTarga() == null || updateDto.getTarga().trim().isEmpty()) {
+            logger.error("::ERRORE:: Nessun campo da aggiornare!");
+            throw new IllegalArgumentException("Non ci sono campi da aggiornare!");
+        } else {
+            updateDto.setTarga(updateDto.getTarga().trim().toUpperCase());
+        }
+
         existingAuto = autoMapper.convertToUpdateEntity(existingAuto, updateDto);
         existingAuto = autoRepository.save(existingAuto);
         publisher.publishEvent(new AutoUpdatedEvent(

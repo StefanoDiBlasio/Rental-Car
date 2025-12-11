@@ -36,9 +36,18 @@ public class UserMapper implements BaseMapper<User, UserDto> {
     }
 
     public User convertToUpdateEntity(User entity, UserUpdateDto updateDto) {
-        entity.setFirstName(updateDto.getFirstName());
-        entity.setLastName(updateDto.getLastName());
-        entity.setBirthDate(updateDto.getBirthDate());
+        if(updateDto.getFirstName() != null && !updateDto.getFirstName().trim().isEmpty()) {
+            entity.setFirstName(updateDto.getFirstName());
+        }
+
+        if(updateDto.getLastName() != null && !updateDto.getLastName().trim().isEmpty()) {
+            entity.setLastName(updateDto.getLastName());
+        }
+
+        if(updateDto.getBirthDate() != null) {
+            entity.setBirthDate(updateDto.getBirthDate());
+        }
+
         return entity;
     }
 

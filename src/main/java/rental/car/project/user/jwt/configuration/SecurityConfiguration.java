@@ -59,7 +59,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        String[] publicRoutes = {"/swagger-ui.html", "/swagger-ui/", "/api/v1/api-docs", "/api/v1/authenticate", "/api/v1/register/*"};
+        String[] publicRoutes = {"/swagger-ui.html", "/swagger-ui/", "/api/v1/api-docs", "/api/v1/user/authenticate", "/api/v1/user/register/*"};
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf

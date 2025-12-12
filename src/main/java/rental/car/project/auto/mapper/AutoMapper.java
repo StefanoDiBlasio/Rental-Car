@@ -5,7 +5,7 @@ import rental.car.project.auto.domain.Auto;
 import rental.car.project.auto.dto.AutoCreateDto;
 import rental.car.project.auto.dto.AutoDto;
 import rental.car.project.auto.dto.AutoUpdateDto;
-import rental.car.project.utils.base.BaseMapper;
+import rental.car.project.common.base.BaseMapper;
 
 @Component
 public class AutoMapper implements BaseMapper<Auto, AutoDto> {

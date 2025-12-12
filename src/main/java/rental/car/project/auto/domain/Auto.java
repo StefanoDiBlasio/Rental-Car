@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import rental.car.project.utils.base.BaseEntity;
+import rental.car.project.common.base.BaseEntity;
 
 @Entity
 @Table(name = "auto")

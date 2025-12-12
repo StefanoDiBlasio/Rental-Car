@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import rental.car.project.user.domain.User;
 import rental.car.project.user.dto.UserDto;
 import rental.car.project.user.dto.UserUpdateDto;
-import rental.car.project.utils.base.BaseMapper;
+import rental.car.project.common.base.BaseMapper;
 
 @Component
 public class UserMapper implements BaseMapper<User, UserDto> {

@@ -1,4 +1,4 @@
-package rental.car.project.utils.base;
+package rental.car.project.common.base;
 
 public interface BaseMapper <E, DTO> {
 

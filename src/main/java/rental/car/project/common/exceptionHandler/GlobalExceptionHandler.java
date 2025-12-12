@@ -1,4 +1,4 @@
-package rental.car.project.utils.exceptionHandler;
+package rental.car.project.common.exceptionHandler;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import rental.car.project.user.jwt.dto.ErrorResponseDto;
+import rental.car.project.common.dto.ErrorResponseDto;
 
 import java.util.NoSuchElementException;
 

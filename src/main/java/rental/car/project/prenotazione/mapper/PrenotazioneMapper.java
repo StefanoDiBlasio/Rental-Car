@@ -7,7 +7,7 @@ import rental.car.project.prenotazione.dto.PrenotazioneCreateDto;
 import rental.car.project.prenotazione.dto.PrenotazioneDto;
 import rental.car.project.prenotazione.dto.PrenotazioneUpdateDto;
 import rental.car.project.user.domain.User;
-import rental.car.project.utils.base.BaseMapper;
+import rental.car.project.common.base.BaseMapper;
 
 @Component
 public class PrenotazioneMapper implements BaseMapper<Prenotazione, PrenotazioneDto> {

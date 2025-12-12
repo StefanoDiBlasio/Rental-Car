@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import rental.car.project.auto.domain.Auto;
 import rental.car.project.user.domain.User;
-import rental.car.project.utils.base.BaseEntity;
+import rental.car.project.common.base.BaseEntity;
 
 import java.time.LocalDate;
 

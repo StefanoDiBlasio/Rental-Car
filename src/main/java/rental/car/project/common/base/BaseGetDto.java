@@ -1,4 +1,4 @@
-package rental.car.project.utils.base;
+package rental.car.project.common.base;
 
 import lombok.Getter;
 import lombok.Setter;

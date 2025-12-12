@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import rental.car.project.user.jwt.dto.ErrorResponseDto;
+import rental.car.project.common.dto.ErrorResponseDto;
 
 /**
  * Intercetta le eccezioni nei controller (dopo aver superato la FilterChain)

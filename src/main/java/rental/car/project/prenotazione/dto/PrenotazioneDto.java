@@ -3,7 +3,7 @@ package rental.car.project.prenotazione.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import rental.car.project.utils.base.BaseGetDto;
+import rental.car.project.common.base.BaseGetDto;
 
 import java.time.LocalDate;
 

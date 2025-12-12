@@ -3,7 +3,7 @@ package rental.car.project.user.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import rental.car.project.utils.base.BaseEntity;
+import rental.car.project.common.base.BaseEntity;
 
 import java.time.LocalDate;
 

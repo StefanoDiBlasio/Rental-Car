@@ -22,7 +22,6 @@ public class AutoController {
     @Autowired
     private AutoService autoService;
 
-    @PreAuthorize("hasRole('SUPERADMIN')")
     @GetMapping(path = "/all")
     public ResponseEntity<List<AutoDto>> getAll() {
         logger.info("::AutoController.getAll (START)::");

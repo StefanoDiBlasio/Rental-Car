@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,6 +57,15 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponseDto.builder()
                         .code(HttpStatus.UNAUTHORIZED.value())
                         .message(":: ERRORE :: EXPIRED JWT EXCEPTION: " + ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.UNAUTHORIZED.value())
+                        .message(":: ERRORE :: BAD CREDENTIALS EXCEPTION: " + ex.getMessage())
                         .build());
     }
 

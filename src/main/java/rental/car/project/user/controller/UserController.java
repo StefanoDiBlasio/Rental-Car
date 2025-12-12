@@ -39,7 +39,6 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
-    @PreAuthorize("hasRole('SUPERADMIN')")
     @GetMapping(path = "/{userId}")
     public ResponseEntity<UserDto> get(@PathVariable(value = "userId") Long userId) {
         logger.info("::UserController.get (START)::");

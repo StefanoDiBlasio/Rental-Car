@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import rental.car.project.user.domain.RoleType;
 import rental.car.project.user.domain.User;
@@ -53,6 +56,15 @@ public class UserService {
         logger.info("::UserService.getUserById (START)::");
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("::User con Id: " + userId + " non trovato!::"));
+
+        String loggedUsername = getAuthenticatedUsername();
+        User loggedUser = userRepository.findByUsername(loggedUsername)
+                .orElseThrow(() -> new IllegalStateException("Errore di autenticazione!"));
+
+        if(loggedUser.getRoleType() == RoleType.CUSTOMER && !loggedUser.getId().equals(userId)) {
+            throw new AccessDeniedException("Non disponi dei permessi per visualizzare i dati di questo utente!");
+        }
+
         logger.info("::GET_USER_BY_ID Utente trovato con id: " + userId + ": " + user.getFirstName() + " " + user.getLastName() + " ::");
         return userMapper.convertToDto(user);
     }
@@ -136,5 +148,10 @@ public class UserService {
         return (dto.getFirstName() == null || dto.getFirstName().trim().isEmpty()) &&
                 (dto.getLastName() == null || dto.getLastName().trim().isEmpty()) &&
                 dto.getBirthDate() == null;
+    }
+
+    private String getAuthenticatedUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName(); // username loggato
     }
 }

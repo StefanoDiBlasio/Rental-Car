@@ -3,6 +3,7 @@ package rental.car.project.utils.exceptionHandler;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,10 +13,10 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(":: ERRORE :: INTERNAL SERVER ERROR: " + ex.getMessage());
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("ERRORE :: ACCESS DENIED EXCEPTION: " + ex.getMessage());
     }
 
     @ExceptionHandler(DisabledException.class)
@@ -40,5 +41,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body("ERRORE :: EXPIRED JWT EXCEPTION: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(":: ERRORE :: INTERNAL SERVER ERROR: " + ex.getMessage());
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import rental.car.project.user.jwt.dto.ErrorResponseDto;
 
 import java.util.NoSuchElementException;
 
@@ -14,38 +15,56 @@ import java.util.NoSuchElementException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("ERRORE :: ACCESS DENIED EXCEPTION: " + ex.getMessage());
+    public ResponseEntity<ErrorResponseDto> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.FORBIDDEN.value())
+                        .message(":: ERRORE :: ACCESS DENIED EXCEPTION: " + ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<?> handleDisabledException(DisabledException ex) {
+    public ResponseEntity<ErrorResponseDto> handleDisabledException(DisabledException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(":: ERRORE :: DISABLED EXCEPTION - UTENTE DISABILITATO: " + ex.getMessage());
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.FORBIDDEN.value())
+                        .message(":: ERRORE :: DISABLED EXCEPTION - UTENTE DISABILITATO: " + ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<?> handleNotFoundException(NoSuchElementException ex) {
+    public ResponseEntity<ErrorResponseDto> handleNotFoundException(NoSuchElementException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(":: ERRORE :: NOT FOUND EXCEPTION: " + ex.getMessage());
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.NOT_FOUND.value())
+                        .message(":: ERRORE :: NOT FOUND EXCEPTION: " + ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleValidationException(IllegalArgumentException ex) {
+    public ResponseEntity<ErrorResponseDto> handleValidationException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("::ERRORE :: ILLEGAL ARGUMENT EXCEPTION: " + ex.getMessage());
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.BAD_REQUEST.value())
+                        .message(":: ERRORE :: ILLEGAL ARGUMENT EXCEPTION: " + ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException ex) {
+    public ResponseEntity<ErrorResponseDto> handleExpiredJwtException(ExpiredJwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("ERRORE :: EXPIRED JWT EXCEPTION: " + ex.getMessage());
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.UNAUTHORIZED.value())
+                        .message(":: ERRORE :: EXPIRED JWT EXCEPTION: " + ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(":: ERRORE :: INTERNAL SERVER ERROR: " + ex.getMessage());
+                .body(ErrorResponseDto.builder()
+                        .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(":: ERRORE :: INTERNAL SERVER ERROR: " + ex.getMessage())
+                        .build());
     }
 }

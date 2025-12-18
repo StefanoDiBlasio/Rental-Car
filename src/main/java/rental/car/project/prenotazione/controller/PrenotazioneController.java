@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/prenotazione")
+@CrossOrigin("*")
 public class PrenotazioneController {
 
     private static final Logger logger = LoggerFactory.getLogger(PrenotazioneController.class);
@@ -40,7 +41,14 @@ public class PrenotazioneController {
         return ResponseEntity.ok().body(prenotazioneDto);
     }
 
-    @PreAuthorize("hasRole('SUPERADMIN')")
+    @GetMapping(path = "/all/{userId}")
+    public ResponseEntity<List<PrenotazioneDto>> getByUserId(@PathVariable(value = "userId") Long userId) {
+        logger.info("::PrenotazioneController.getByUserId (START)::");
+        List<PrenotazioneDto> listaPrenotazioniDto = prenotazioneService.getAllPrenotazioniByUserId(userId);
+        logger.info("::PrenotazioneController.getByUserId (END)::");
+        return ResponseEntity.ok().body(listaPrenotazioniDto);
+    }
+
     @PostMapping(value = "/add")
     public ResponseEntity<PrenotazioneDto> add(@RequestBody PrenotazioneCreateDto prenotazioneCreateDto) {
         logger.info("::PrenotazioneController.addPrenotazione (START)::");
@@ -57,6 +65,26 @@ public class PrenotazioneController {
         PrenotazioneDto prenotazioneDto = prenotazioneService.updatePrenotazione(prenotazioneId, updateDto);
         logger.info("::Data di prenotazione aggiornata: " + updateDto.getInizioPrenotazione() + " - " + updateDto.getFinePrenotazione() + " ::");
         logger.info("::PrenotazioneController.update (END)::");
+        return ResponseEntity.ok().body(prenotazioneDto);
+    }
+
+    @PreAuthorize("hasRole('SUPERADMIN')")
+    @PutMapping(path = "/approve/{prenotazioneId}")
+    public ResponseEntity<PrenotazioneDto> approve(@PathVariable(value = "prenotazioneId") Long prenotazioneId) {
+        logger.info("::PrenotazioneController.approve (START)::");
+        PrenotazioneDto prenotazioneDto = prenotazioneService.approvaPrenotazione(prenotazioneId);
+        logger.info("::Stato della prenotazione aggiornata in: APPROVATA::");
+        logger.info("::PrenotazioneController.approve (END)::");
+        return ResponseEntity.ok().body(prenotazioneDto);
+    }
+
+    @PreAuthorize("hasRole('SUPERADMIN')")
+    @PutMapping(path = "/reject/{prenotazioneId}")
+    public ResponseEntity<PrenotazioneDto> reject(@PathVariable(value = "prenotazioneId") Long prenotazioneId) {
+        logger.info("::PrenotazioneController.reject (START)::");
+        PrenotazioneDto prenotazioneDto = prenotazioneService.rifiutaPrenotazione(prenotazioneId);
+        logger.info("::Stato della prenotazione aggiornata in: RIFIUTATA::");
+        logger.info("::PrenotazioneController.reject (END)::");
         return ResponseEntity.ok().body(prenotazioneDto);
     }
 

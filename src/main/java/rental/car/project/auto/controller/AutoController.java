@@ -31,7 +31,6 @@ public class AutoController {
         return ResponseEntity.ok().body(auto);
     }
 
-    @PreAuthorize("hasRole('SUPERADMIN')")
     @GetMapping(path = "/{autoId}")
     public ResponseEntity<AutoDto> get(@PathVariable(value = "autoId") Long autoId) {
         logger.info("::AutoController.get (START)::");

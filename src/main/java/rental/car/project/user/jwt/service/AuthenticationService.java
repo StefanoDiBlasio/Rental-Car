@@ -52,11 +52,12 @@ public class AuthenticationService {
 
         Optional<User> user = userRepository.findByUsername(loginRequestDto.getUsername());
         String role = user.get().getRoleType().name();
+        Long userId = user.get().getId();
 
         String tokenJWT = JwtUtil.generateToken(userDetails, role);
         logger.info("::LoginController.login:: TokenJWT: " + tokenJWT);
 
-        LoginResponseDto loginResponseDto = new LoginResponseDto(loginRequestDto.getUsername(), tokenJWT);
+        LoginResponseDto loginResponseDto = new LoginResponseDto(userId, loginRequestDto.getUsername(), tokenJWT, role);
         logger.info("::LoginController.login:: LoginResponseDTO: " + loginResponseDto + "]");
 
         return loginResponseDto;

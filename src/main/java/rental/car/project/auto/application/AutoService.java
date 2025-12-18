@@ -45,6 +45,7 @@ public class AutoService {
         for (Auto a : parcoAuto) {
             dtoList.add(autoMapper.convertToDto(a));
         }
+        logger.info("::AutoService.getAllAuto:: (END)");
         return dtoList;
     }
 

@@ -13,6 +13,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class LoginResponseDto implements Serializable {
 
+    private Long userId;
     private String username;
     private String token;
+    private String role;
+
 }

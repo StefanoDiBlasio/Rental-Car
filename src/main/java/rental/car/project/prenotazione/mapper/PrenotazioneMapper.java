@@ -17,9 +17,18 @@ public class PrenotazioneMapper implements BaseMapper<Prenotazione, Prenotazione
         PrenotazioneDto dto = PrenotazioneDto.builder()
                 .id(entity.getId())
                 .userId(entity.getUser().getId())
+                .username(entity.getUser().getUsername())
+                .firstName(entity.getUser().getFirstName())
+                .lastName(entity.getUser().getLastName())
                 .autoId(entity.getAuto().getId())
+                .casaCostruttrice(entity.getAuto().getCasaCostruttrice())
+                .modello(entity.getAuto().getModello())
+                .annoImmatricolazione(entity.getAuto().getAnnoImmatricolazione())
+                .targa(entity.getAuto().getTarga())
+                .autoType(entity.getAuto().getAutoType())
                 .inizioPrenotazione(entity.getInizioPrenotazione())
                 .finePrenotazione(entity.getFinePrenotazione())
+                .status(entity.getStatus())
                 .build();
 
         return dto;
@@ -52,6 +61,9 @@ public class PrenotazioneMapper implements BaseMapper<Prenotazione, Prenotazione
             entity.setFinePrenotazione(updateDto.getFinePrenotazione());
         }
 
+        if(updateDto.getStatus() != null) {
+            entity.setStatus(updateDto.getStatus());
+        }
         return entity;
     }
 

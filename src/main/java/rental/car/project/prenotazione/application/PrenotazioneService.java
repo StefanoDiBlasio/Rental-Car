@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import rental.car.project.auto.domain.Auto;
 import rental.car.project.auto.infrastructure.AutoRepository;
 import rental.car.project.prenotazione.domain.Prenotazione;
+import rental.car.project.prenotazione.domain.StatusPrenotazione;
 import rental.car.project.prenotazione.dto.PrenotazioneCreateDto;
 import rental.car.project.prenotazione.dto.PrenotazioneDto;
 import rental.car.project.prenotazione.dto.PrenotazioneUpdateDto;
@@ -48,6 +49,25 @@ public class PrenotazioneService {
         return prenotazioneMapper.convertToDto(prenotazione);
     }
 
+    public List<PrenotazioneDto> getAllPrenotazioniByUserId(Long userId) {
+        logger.info("::PrenotazioneService.getAllPrenotazioniById (START)::");
+        List<Prenotazione> listaPrenotazioni = prenotazioneRepository.findAllPrenotazioniByUserId(userId);
+        List<PrenotazioneDto> listaPrenotazioniDto = new ArrayList<>();
+        for (Prenotazione prenotazione : listaPrenotazioni) {
+            PrenotazioneDto dto = PrenotazioneDto.builder()
+                    .id(prenotazione.getId())
+                    .userId(userId)
+                    .autoId(prenotazione.getAuto().getId())
+                    .inizioPrenotazione(prenotazione.getInizioPrenotazione())
+                    .finePrenotazione(prenotazione.getFinePrenotazione())
+                    .build();
+            listaPrenotazioniDto.add(dto);
+        }
+        logger.info("::GET_ALL_PRENOTAZIONI_BY_ID Numero prenotazioni trovate associate all'utente: "
+                + userId + ": " + listaPrenotazioniDto.stream().count() + " ::");
+        return listaPrenotazioniDto;
+    }
+
     public List<PrenotazioneDto> getAllPrenotazioni() {
         logger.info("::PrenotazioneService.getAllPrenotazioni (START)::");
         List<PrenotazioneDto> dtoList = new ArrayList<>();
@@ -68,14 +88,24 @@ public class PrenotazioneService {
                 .orElseThrow(() -> new NoSuchElementException("::Auto con Id: " + createDto.getAutoId() + " non trovata!::"));
 
         Prenotazione prenotazione = prenotazioneMapper.convertToCreateEntity(createDto, user, auto);
+        prenotazione.setStatus(StatusPrenotazione.IN_ATTESA);
         prenotazioneRepository.save(prenotazione);
         logger.info(":: Prenotazione creata con successo! ::");
         publisher.publishEvent(new PrenotazioneCreatedEvent(
                 prenotazione.getId(),
                 prenotazione.getUser().getId(),
+                prenotazione.getUser().getUsername(),
+                prenotazione.getUser().getFirstName(),
+                prenotazione.getUser().getLastName(),
                 prenotazione.getAuto().getId(),
+                prenotazione.getAuto().getCasaCostruttrice(),
+                prenotazione.getAuto().getModello(),
+                prenotazione.getAuto().getAnnoImmatricolazione(),
+                prenotazione.getAuto().getTarga(),
+                prenotazione.getAuto().getAutoType().name(),
                 prenotazione.getInizioPrenotazione(),
-                prenotazione.getFinePrenotazione()));
+                prenotazione.getFinePrenotazione(),
+                prenotazione.getStatus()));
         logger.info("::AutoService.createAuto:: (END)");
 
         return prenotazioneMapper.convertToDto(prenotazione);
@@ -96,9 +126,38 @@ public class PrenotazioneService {
         publisher.publishEvent(new PrenotazioneUpdatedEvent(
                 existingPrenotazione.getId(),
                 existingPrenotazione.getInizioPrenotazione(),
-                existingPrenotazione.getFinePrenotazione()
+                existingPrenotazione.getFinePrenotazione(),
+                existingPrenotazione.getStatus()
         ));
         logger.info("::UPDATE_PRENOTAZIONE La prenotazione con id: " + prenotazioneId + " è stata aggiornata con successo!::");
+        return prenotazioneMapper.convertToDto(existingPrenotazione);
+    }
+
+    public PrenotazioneDto approvaPrenotazione(Long prenotazioneId) {
+        logger.info("::PrenotazioneService.approvaPrenotazione (START)::");
+        Prenotazione existingPrenotazione = prenotazioneRepository.findById(prenotazioneId)
+                .orElseThrow(() -> new NoSuchElementException("::Nessuna prenotazione trovata!::"));
+
+        if(existingPrenotazione.getStatus() != StatusPrenotazione.IN_ATTESA) {
+            throw new IllegalArgumentException("Non è possibile approvare una prenotazione nello stato " + existingPrenotazione.getStatus());
+        }
+        existingPrenotazione.setStatus(StatusPrenotazione.APPROVATA);
+        prenotazioneRepository.save(existingPrenotazione);
+        logger.info("::PrenotazioneService.approvaPrenotazione (END)::");
+        return prenotazioneMapper.convertToDto(existingPrenotazione);
+    }
+
+    public PrenotazioneDto rifiutaPrenotazione(Long prenotazioneId) {
+        logger.info("::PrenotazioneService.rifiutaPrenotazione (START)::");
+        Prenotazione existingPrenotazione = prenotazioneRepository.findById(prenotazioneId)
+                .orElseThrow(() -> new NoSuchElementException("::Nessuna prenotazione trovata!::"));
+
+        if(existingPrenotazione.getStatus() != StatusPrenotazione.IN_ATTESA) {
+            throw new IllegalArgumentException("Non è possibile rifiutare una prenotazione nello stato " + existingPrenotazione.getStatus());
+        }
+        existingPrenotazione.setStatus(StatusPrenotazione.RIFIUTATA);
+        prenotazioneRepository.save(existingPrenotazione);
+        logger.info("::PrenotazioneService.rifiutaPrenotazione (END)::");
         return prenotazioneMapper.convertToDto(existingPrenotazione);
     }
 

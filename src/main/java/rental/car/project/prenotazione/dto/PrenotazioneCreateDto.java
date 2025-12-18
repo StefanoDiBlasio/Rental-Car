@@ -2,6 +2,7 @@ package rental.car.project.prenotazione.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import rental.car.project.prenotazione.domain.StatusPrenotazione;
 
 import java.time.LocalDate;
 

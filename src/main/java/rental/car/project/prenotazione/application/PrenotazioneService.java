@@ -60,6 +60,9 @@ public class PrenotazioneService {
             PrenotazioneDto dto = PrenotazioneDto.builder()
                     .id(prenotazione.getId())
                     .userId(userId)
+                    .username(prenotazione.getUser().getUsername())
+                    .firstName(prenotazione.getUser().getFirstName())
+                    .lastName(prenotazione.getUser().getLastName())
                     .autoId(prenotazione.getAuto().getId())
                     .casaCostruttrice(prenotazione.getAuto().getCasaCostruttrice())
                     .modello(prenotazione.getAuto().getModello())
@@ -72,7 +75,7 @@ public class PrenotazioneService {
                     .build();
             listaPrenotazioniDto.add(dto);
         }
-        logger.info("::GET_ALL_PRENOTAZIONI_BY_ID Numero prenotazioni trovate associate all'utente: "
+        logger.info("::GET_ALL_PRENOTAZIONI_BY_ID Numero prenotazioni trovate associate all'utente con id: "
                 + userId + ": " + listaPrenotazioniDto.stream().count() + " ::");
         return listaPrenotazioniDto;
     }

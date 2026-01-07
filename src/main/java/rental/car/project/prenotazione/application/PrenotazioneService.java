@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import rental.car.project.auto.domain.Auto;
 import rental.car.project.auto.infrastructure.AutoRepository;
@@ -14,9 +15,11 @@ import rental.car.project.prenotazione.dto.PrenotazioneDto;
 import rental.car.project.prenotazione.dto.PrenotazioneUpdateDto;
 import rental.car.project.prenotazione.infrastructure.PrenotazioneRepository;
 import rental.car.project.prenotazione.mapper.PrenotazioneMapper;
+import rental.car.project.prenotazione.specification.PrenotazioneSpecification;
 import rental.car.project.user.domain.User;
 import rental.car.project.user.infrastructure.UserRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -58,8 +61,14 @@ public class PrenotazioneService {
                     .id(prenotazione.getId())
                     .userId(userId)
                     .autoId(prenotazione.getAuto().getId())
+                    .casaCostruttrice(prenotazione.getAuto().getCasaCostruttrice())
+                    .modello(prenotazione.getAuto().getModello())
+                    .annoImmatricolazione(prenotazione.getAuto().getAnnoImmatricolazione())
+                    .targa(prenotazione.getAuto().getTarga())
+                    .autoType(prenotazione.getAuto().getAutoType())
                     .inizioPrenotazione(prenotazione.getInizioPrenotazione())
                     .finePrenotazione(prenotazione.getFinePrenotazione())
+                    .status(prenotazione.getStatus())
                     .build();
             listaPrenotazioniDto.add(dto);
         }
@@ -76,6 +85,54 @@ public class PrenotazioneService {
             dtoList.add(prenotazioneMapper.convertToDto(p));
         }
         return dtoList;
+    }
+
+    public List<PrenotazioneDto> searchFilteredPrenotazioni(
+            Long id,
+            String firstName,
+            String lastName,
+            String casaCostruttrice,
+            String modello,
+            String targa,
+            LocalDate inizioPrenotazione,
+            LocalDate finePrenotazione,
+            StatusPrenotazione status
+    ) {
+        logger.info("::PrenotazioneService.searchFilteredPrenotazioni (START)::");
+        Specification<Prenotazione> spec =
+                PrenotazioneSpecification.withFilters(
+                        id,
+                        firstName,
+                        lastName,
+                        casaCostruttrice,
+                        modello,
+                        targa,
+                        inizioPrenotazione,
+                        finePrenotazione,
+                        status
+                );
+        List<Prenotazione> prenotazioniFiltrate = prenotazioneRepository.findAll(spec);
+        List<PrenotazioneDto> listaPrenotazioniDto = new ArrayList<>();
+
+        for (Prenotazione prenotazione : prenotazioniFiltrate) {
+            PrenotazioneDto dto = PrenotazioneDto.builder()
+                    .id(prenotazione.getId())
+                    .userId(prenotazione.getUser().getId())
+                    .autoId(prenotazione.getAuto().getId())
+                    .casaCostruttrice(prenotazione.getAuto().getCasaCostruttrice())
+                    .modello(prenotazione.getAuto().getModello())
+                    .annoImmatricolazione(prenotazione.getAuto().getAnnoImmatricolazione())
+                    .targa(prenotazione.getAuto().getTarga())
+                    .autoType(prenotazione.getAuto().getAutoType())
+                    .inizioPrenotazione(prenotazione.getInizioPrenotazione())
+                    .finePrenotazione(prenotazione.getFinePrenotazione())
+                    .status(prenotazione.getStatus())
+                    .build();
+            listaPrenotazioniDto.add(dto);
+        }
+        logger.info("::PrenotazioneService.searchFilteredPrenotazioni (END)::");
+
+        return listaPrenotazioniDto;
     }
 
     public PrenotazioneDto createPrenotazione(PrenotazioneCreateDto createDto) {
@@ -169,6 +226,17 @@ public class PrenotazioneService {
                 prenotazioneId
         ));
         logger.info("::DELETE_PRENOTAZIONE La prenotazione con id: " + prenotazioneId + " è stata eliminata con successo!::");
+    }
+
+    public StatusPrenotazione parseStatus(String value) {
+        if (value == null || value.isBlank() || "null".equalsIgnoreCase(value)) {
+            return null;
+        }
+        try {
+            return StatusPrenotazione.valueOf(value);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Errore nel Parsin dello status!");
+        }
     }
 
 }

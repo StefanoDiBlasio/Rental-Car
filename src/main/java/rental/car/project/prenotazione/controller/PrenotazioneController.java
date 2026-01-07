@@ -3,15 +3,23 @@ package rental.car.project.prenotazione.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rental.car.project.prenotazione.application.PrenotazioneService;
+import rental.car.project.prenotazione.domain.Prenotazione;
+import rental.car.project.prenotazione.domain.StatusPrenotazione;
 import rental.car.project.prenotazione.dto.PrenotazioneCreateDto;
 import rental.car.project.prenotazione.dto.PrenotazioneDto;
 import rental.car.project.prenotazione.dto.PrenotazioneUpdateDto;
+import rental.car.project.utility.RequestParamParser;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.lang.Long.parseLong;
+import static org.apache.tomcat.util.http.FastHttpDateFormat.parseDate;
 
 @RestController
 @RequestMapping("/api/v1/prenotazione")
@@ -47,6 +55,32 @@ public class PrenotazioneController {
         List<PrenotazioneDto> listaPrenotazioniDto = prenotazioneService.getAllPrenotazioniByUserId(userId);
         logger.info("::PrenotazioneController.getByUserId (END)::");
         return ResponseEntity.ok().body(listaPrenotazioniDto);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PrenotazioneDto>> searchPrenotazioni(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String casaCostruttrice,
+            @RequestParam(required = false) String modello,
+            @RequestParam(required = false) String targa,
+            @RequestParam(required = false) String inizioPrenotazione,
+            @RequestParam(required = false) String finePrenotazione,
+            @RequestParam(required = false) String status
+    ) {
+
+        return ResponseEntity.ok().body(prenotazioneService.searchFilteredPrenotazioni(
+                RequestParamParser.toLong(id),
+                RequestParamParser.convertString(firstName),
+                RequestParamParser.convertString(lastName),
+                RequestParamParser.convertString(casaCostruttrice),
+                RequestParamParser.convertString(modello),
+                RequestParamParser.convertString(targa),
+                RequestParamParser.toLocalDate(inizioPrenotazione),
+                RequestParamParser.toLocalDate(finePrenotazione),
+                RequestParamParser.toStatus(status)
+        ));
     }
 
     @PostMapping(value = "/add")

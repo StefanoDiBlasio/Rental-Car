@@ -52,6 +52,18 @@ public class UserService {
         return dtoList;
     }
 
+    public List<UserDto> getAllCustomers(){
+        logger.info("::UserService.getAllCustomers (START)::");
+        List<UserDto> dtoList = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        for (User u : users) {
+            if(u.getRoleType() == RoleType.CUSTOMER) {
+                dtoList.add(userMapper.convertToDto(u));
+            }
+        }
+        return dtoList;
+    }
+
     public UserDto getUserById(Long userId) {
         logger.info("::UserService.getUserById (START)::");
         User user = userRepository.findById(userId)

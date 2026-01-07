@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import rental.car.project.auto.domain.Auto;
+import rental.car.project.auto.domain.AutoType;
 import rental.car.project.auto.dto.AutoCreateDto;
 import rental.car.project.auto.dto.AutoDto;
 import rental.car.project.auto.dto.AutoUpdateDto;
 import rental.car.project.auto.infrastructure.AutoRepository;
 import rental.car.project.auto.mapper.AutoMapper;
+import rental.car.project.auto.specification.AutoSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,13 @@ public class AutoService {
         }
         logger.info("::AutoService.getAllAuto:: (END)");
         return dtoList;
+    }
+
+    public List<AutoDto> getAllFilteredAuto(String casaCostruttrice, String modello, Integer annoImmatricolazione, AutoType autoType){
+        logger.info("::AutoService.getAllFilteredAuto (START)::");
+        return autoRepository.findAll(AutoSpecification.withFilters(
+                casaCostruttrice, modello, annoImmatricolazione, autoType))
+                .stream().map(autoMapper::convertToDto).toList();
     }
 
     public AutoDto createAuto(AutoCreateDto createDto) {

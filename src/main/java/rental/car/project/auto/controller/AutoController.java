@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rental.car.project.auto.application.AutoService;
+import rental.car.project.auto.domain.AutoType;
 import rental.car.project.auto.dto.AutoCreateDto;
 import rental.car.project.auto.dto.AutoDto;
 import rental.car.project.auto.dto.AutoUpdateDto;
@@ -37,6 +38,17 @@ public class AutoController {
         AutoDto auto = autoService.getAutoById(autoId);
         logger.info("::AutoController.get (END)::");
         return ResponseEntity.ok().body(auto);
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<List<AutoDto>> search(
+            @RequestParam(required = false) String casaCostruttrice,
+            @RequestParam(required = false) String modello,
+            @RequestParam(required = false) Integer annoImmatricolazione,
+            @RequestParam(required = false) AutoType autotype
+    ) {
+        logger.info("::AutoController.search (START)::");
+        return ResponseEntity.ok().body(autoService.getAllFilteredAuto(casaCostruttrice, modello, annoImmatricolazione, autotype));
     }
 
     @PreAuthorize("hasRole('SUPERADMIN')")

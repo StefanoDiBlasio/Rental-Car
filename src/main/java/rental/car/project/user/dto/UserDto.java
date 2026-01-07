@@ -17,4 +17,5 @@ public class UserDto extends BaseGetDto {
     private String lastName;
     private LocalDate birthDate;
     private RoleType roleType;
+    private Boolean enabled;
 }

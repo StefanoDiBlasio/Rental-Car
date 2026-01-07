@@ -17,6 +17,7 @@ public class UserMapper implements BaseMapper<User, UserDto> {
                 .lastName(entity.getLastName())
                 .birthDate(entity.getBirthDate())
                 .roleType(entity.getRoleType())
+                .enabled(entity.getEnabled())
                 .build();
 
         return dto;
@@ -30,6 +31,7 @@ public class UserMapper implements BaseMapper<User, UserDto> {
                 .lastName(dto.getLastName())
                 .birthDate(dto.getBirthDate())
                 .roleType(dto.getRoleType())
+                .enabled(dto.getEnabled())
                 .build();
 
         return entity;

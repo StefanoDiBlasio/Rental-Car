@@ -39,6 +39,15 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
+    @PreAuthorize("hasRole('SUPERADMIN')")
+    @GetMapping(path = "/all/customers")
+    public ResponseEntity<List<UserDto>> getAllCustomers() {
+        logger.info("::UserController.getAllCustomers (START)::");
+        List<UserDto> users = userService.getAllCustomers();
+        logger.info("::UserController.getAllCustomers (END)::");
+        return ResponseEntity.ok().body(users);
+    }
+
     @GetMapping(path = "/{userId}")
     public ResponseEntity<UserDto> get(@PathVariable(value = "userId") Long userId) {
         logger.info("::UserController.get (START)::");
@@ -98,7 +107,7 @@ public class UserController {
         logger.info("::UserController.enable (START)::");
         userService.setEnabled(userId);
         logger.info("::UserController.enable (END)::");
-        return ResponseEntity.ok().body("::UserController.enable:: Utente abilitato!");
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('SUPERADMIN')")
@@ -107,6 +116,6 @@ public class UserController {
         logger.info("::UserController.disable (START)::");
         userService.setDisabled(userId);
         logger.info("::UserController.disable (END)::");
-        return ResponseEntity.ok().body("::UserController.disable:: Utente disabilitato!");
+        return ResponseEntity.noContent().build();
     }
 }
